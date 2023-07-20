@@ -1,5 +1,30 @@
 @use "sass:math";
 
+.inputs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+input{
+  margin: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid black;
+  font-size: 10px;
+  text-align: center;
+  &:focus {
+    outline: none;
+  }
+}
+
+
+
+.point{
+  background-color: lawngreen;
+}
+
 // Grid system For the dijkstra game
 .container {
   display: grid;
@@ -26,6 +51,9 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   &:hover {
     background-color: darken(lightgray, 7);
+  }
+  .obstacle{
+    background-color: black;
   }
 }
 
