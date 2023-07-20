@@ -1,3 +1,16 @@
+const Start={x:0,y:0};
+const end = {x:0,y:0};
+
+let graph = [];
+
+function chooseStart(){
+
+}
+
+function chooseEnd(){
+
+}
+
 
 
 class Node{
@@ -9,13 +22,20 @@ class Node{
 }
 
 function buildGraph(height,width){
-  let Graph = [];
-  for(let i=0;i<height;i++){
-    for(let j=0;j<width;j++){
-      Graph.push(new Node(false,{x:j,y:i}));
+  graph=[];
+  for(let i=1;i<=height;i++){
+    for(let j=1;j<=width;j++){
+      graph.push(new Node(false,{x:j,y:i}));
     }
   }
-  return Graph;
+  return graph;
 }
 
-export default buildGraph;
+
+function addObstacle(position){
+  const node = graph.find(element => element.position.x===position.x && element.position.y===position.y)
+  node.isObstacle=true;
+  console.log(graph)
+}
+
+export {addObstacle,chooseEnd,chooseStart,buildGraph};

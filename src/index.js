@@ -1,6 +1,7 @@
 import buildTerrain from "./grid.config";
 import './styles/main.scss';
-import buildGraph from "./graph.builder";
+import {buildGraph} from "./graph.builder";
+
 
 // Cleans the Board/Terrain
 function cleanContainer(){
@@ -8,6 +9,7 @@ function cleanContainer(){
   container.innerHTML = '';
 }
 
+buildGraph(5,5);
 // Build the default Board
 buildTerrain(5,5);
 
@@ -21,6 +23,7 @@ terrainForm.addEventListener('submit',(event)=>{
   const heightInput = document.querySelector('#height')
 
   cleanContainer();
-
+  buildGraph(heightInput.value,widthInput.value);
   buildTerrain(heightInput.value,widthInput.value);
+  
 });

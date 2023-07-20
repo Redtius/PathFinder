@@ -1,4 +1,4 @@
-import {addObstacle,chooseEnd,chooseStart} from './selection.builder';
+import {addObstacle,chooseEnd,chooseStart} from './graph.builder';
 
 
 class GridRow{
@@ -37,7 +37,6 @@ class Card{
     this.horizontalGap=100/width;
     this.position=this.incrementCurrentPos(width);
     this.buildCard(row.HTMLRow);
-    console.log(this.position);
     
   }
   incrementCurrentPos(width){
@@ -79,9 +78,8 @@ class Card{
       }
       else{
         card.style.backgroundColor='black';
+        addObstacle(this.position);
       }
-        
-        console.log(event.button)
     })
   }
 
