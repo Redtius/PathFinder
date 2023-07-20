@@ -6,12 +6,12 @@
   
   grid-column: span 10; /* This makes the .container take up 10 columns */
   grid-column-start: 6;
-  background-color: aqua;
+  background-color: rgb(170, 170, 170);
 
 }
 
 body {
-  background-color: lightblue;
+  background-color: rgb(170, 170, 170);
   display: grid;
   grid-template-columns: repeat(12, 1fr);
 }
@@ -22,8 +22,11 @@ body {
 
 .card {
   border-radius: 10px;
-  flex: 0 0 calc(25% - 20px);
+  background-color: lightgray;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  &:hover {
+    background-color: darken(lightgray, 7);
+  }
 }
 
 

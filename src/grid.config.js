@@ -15,7 +15,6 @@ class GridRow{
       width:${this.width};
       display: flex;
       height:${this.height}px;
-      background-color: red;
       margin: ${this.verticalGap}px 0px;
     `;
 
@@ -37,10 +36,10 @@ class Card{
     card.style.cssText=`
       width:${this.width}px;
       height:${this.height}px;
-      background-color:green;
       margin: 0px ${this.horizontalGap}px;
       
     `;
+    card.classList.add('card');
     row.appendChild(card);
   }
 

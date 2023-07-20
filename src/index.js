@@ -4,4 +4,4 @@ import './styles/main.scss'
 
 
 console.log('test')
-buildTerrain(10,10);
+buildTerrain(5,5);
