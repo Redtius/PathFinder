@@ -1,0 +1,29 @@
+@use "sass:math";
+
+// Grid system For the dijkstra game
+.container {
+  display: grid;
+  
+  grid-column: span 10; /* This makes the .container take up 10 columns */
+  grid-column-start: 6;
+  background-color: aqua;
+
+}
+
+body {
+  background-color: lightblue;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.row {
+  display: flex;
+}
+
+.card {
+  border-radius: 10px;
+  flex: 0 0 calc(25% - 20px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
