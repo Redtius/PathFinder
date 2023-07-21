@@ -1,6 +1,10 @@
+
 import {addObstacle,chooseEnd,chooseStart} from './graph.builder';
 
 
+
+
+let counter=0;
 class GridRow{
   constructor(height){
     this.width=800;
@@ -73,8 +77,14 @@ class Card{
   buildListener(card){
     card.addEventListener('mousedown',(event)=>{
       if(event.button==0){
-        card.style.backgroundColor='lightblue';
-        
+        try{
+          choosePoints(this.position);
+          card.style.backgroundColor='lightblue';
+        }
+        catch(error)
+        {
+          console.log(error,"Too many destinations");
+        }
       }
       else{
         card.style.backgroundColor='black';
@@ -82,14 +92,30 @@ class Card{
       }
     })
   }
-
   static restartPosCounter(){
     Card.currentPosition={x:1,y:1};
   }
+}
 
+function choosePoints(point){
+  if(counter===0){
+    chooseStart(point);
+  }
+  else if(counter===1){
+    chooseEnd(point);
+  }
+  else{
+    throw new Error;
+  }
+  counter++
+}
+
+function pointsInit(){
+  counter=0;
 }
 
 function buildTerrain(height, width) {
+  pointsInit();
   Card.restartPosCounter();
   for (let i = 0; i < height; i++) {
     let row = new GridRow(10); // Pass height and width to GridRow constructor
