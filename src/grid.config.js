@@ -4,7 +4,7 @@ import { Game,Graph,Node } from "./graph.builder";
 class GridRow{
   constructor(height){
     this.width=800;
-    this.height=575/height;
+    this.height=600/height;
     this.HTMLRow=this.buildRow()
     return this ;
   };
@@ -14,9 +14,9 @@ class GridRow{
     const row = document.createElement('div');
 
     row.style.cssText=`
-      width:${this.width};
-      display: flex;
+      width:${this.width}px;
       height:${this.height}px;
+      display: flex;
     `;
 
     container.appendChild(row);
@@ -34,7 +34,8 @@ class Card{
     this.height=row.height;
     this.position=this.incrementCurrentPos(width);
     this.gameTerrain=gameTerrain;
-    this.buildCard(row.HTMLRow);
+    this.HTMLcard = this.buildCard(row.HTMLRow);
+    return this;
   }
   incrementCurrentPos(width){
     const currentPosition={...Card.currentPosition};
@@ -63,6 +64,7 @@ class Card{
     this.buildListener(card)
 
     row.appendChild(card);
+    return card;
   }
 
   static restartPosCounter(){
@@ -73,9 +75,8 @@ class Card{
     card.addEventListener('mousedown',(event)=>{
       if(event.button==0){
         try{
-          console.log('click0')
-          this.gameTerrain.setPoint(this.position);
           card.style.backgroundColor='lightblue';
+          this.gameTerrain.setPoint(this.position);   
         }
         catch(error)
         {
@@ -83,7 +84,6 @@ class Card{
         }
       }
       else{
-        console.log('click1')
         this.gameTerrain.addObs(this.position);
         card.style.backgroundColor='black';
       }
@@ -95,10 +95,11 @@ class Card{
 // the GameTerrain (Graphical + Virtual)
 class GameTerrain{
   constructor(height,width){
-    this.buildTerrain(height,width);
     this.start={x:0,y:0};
     this.end={x:0,y:0};
     this.counter = 0;
+    this.cards = [];
+    this.buildTerrain(height,width);
   }
 
   setPoint(point){
@@ -135,7 +136,13 @@ class GameTerrain{
   }
 
   reconstructPath(result){
-    console.log(result);
+    let parentNode = result.parentNode;
+    while(parentNode !== null){
+      let card = this.cards.find(element => element.position.x === parentNode.position.x && element.position.y === parentNode.position.y);
+      
+      card.HTMLcard.style.backgroundColor='rgb(107, 255, 107)';
+      parentNode=parentNode.parentNode;
+    }
   }
 
   cleanContainer(){
@@ -149,7 +156,8 @@ class GameTerrain{
     for (let i = 0; i < height; i++) {
       let row = new GridRow(10); // Pass height and width to GridRow constructor
       for (let j = 0; j < width; j++) {
-        new Card(row,width,this);
+        let card = new Card(row,width,this);
+        this.cards.push(card);
       }
     }
     this.graph= new Graph(height,width);

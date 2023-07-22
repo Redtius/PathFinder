@@ -1,25 +1,5 @@
 @use "sass:math";
 
-.inputs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-start: 1;
-  grid-column-end: 4;
-}
-
-input{
-  margin: 5px;
-  padding: 5px;
-  border-radius: 10px;
-  border: 1px solid black;
-  font-size: 10px;
-  text-align: center;
-  &:focus {
-    outline: none;
-  }
-}
-
-
 
 .point{
   background-color: lawngreen;
@@ -36,10 +16,44 @@ input{
 }
 
 body {
-  background-color: rgb(170, 170, 170);
-  display: grid;
+  background-color: rgb(59, 59, 59);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   grid-template-columns: repeat(12, 1fr);
 }
+
+
+// here's the button customization
+.btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px ;
+}
+
+@mixin btn(){
+  padding: 12px 12px;
+  border-radius: 5px;
+  border: none;
+}
+
+.hidden{
+  display: none;
+}
+
+.reset{
+  @include btn();
+  background-color: rgb(107, 255, 107);
+  margin: 0px 10px;
+  svg{
+    width: 20px;
+    height: 20px;
+  }
+  &:hover{
+    background-color: darken(rgb(107, 255, 107), 7);
+  }
+  }
 
 .row {
   display: flex;
