@@ -1,8 +1,5 @@
 
-let start={x:0,y:0};
-let end = {x:0,y:0};
-
-
+// finds the minimum F score of a given Array of Nodes
 function minFscore(openArray){
   let min;
   openArray.forEach(element => {
@@ -13,49 +10,69 @@ function minFscore(openArray){
   return min;
 }
 
+// Checks if the Node is in the Array
 function searchNode(openArray,node){
   if(openArray.find(element=>element.position.x===node.position.x && element.position.y===node.position.y))
   return true
   else return false;
 }
 
+// Game class to handle the A* algorithm and pathfinding
 class Game{
   constructor(graph,start,end){
-    this.graph=graph;
-    this.start=new Node(start);
-    this.end=end;
-    return this;
+    
+    this.graph=graph; // The graph that holds the nodes and their relationships
+    this.start=new Node(start); // The starting node with the given 'start' position
+    this.end=end; // The target position for the end node
   }
+
+  // Setter methods to update the start and end nodes
+
   setStart(start){
     this.start=start;
   }
   setEnd(end){
     this.end=end;
   }
-  aStar(){
 
+  // A* algorithm to find the optimal path from the start node to the end node
+  aStar(){
+    // Initialize the scores for the start node
     this.start.setScores(0,this.end)
-    let open = [];
-    let close = [];
-    open.push(this.start);
+
+    let open = []; // Array to store nodes to be explored
+
+    let close = []; // Array to store nodes that have been explored
+
+    open.push(this.start); // Add the start node to the 'open' array
+
     while(open.length!==0){
-      let next = minFscore(open);
-      open.splice(open.indexOf(next),1);
-      close.push(next);
+      let next = minFscore(open); // Get the node with the minimum f-score from the 'open' array
+
+      open.splice(open.indexOf(next),1); // Remove 'next' node from 'open'
+
+      close.push(next); // Add 'next' node to 'close'
+
+      // If 'next' node is the target end node, we have found the path
       if (next.position.x == this.end.x && next.position.y == this.end.y){
         console.log(next,"Found it!")
         return next;
       }
-      console.log(next.voisins(this.graph))
+
+      // Get the neighboring nodes of 'next' node
       next.voisins(this.graph).forEach((element)=>{
+        // Set the g-score, h-score, and f-score for each neighboring node
           element.setScores((next.gscore + next.distance(element)),this.end);
+
+          // Check if the neighboring node is not an obstacle and is not in the 'close' array
           if(!element.isObstacle && !searchNode(close,element)){
-            element.setParrentNode(next);
-            open.push(element);
+            element.setParrentNode(next); // Set the parent node for the neighboring node
+            open.push(element); // Add the neighboring node to 'open' for further exploration
           }
       })
     }
     if(open.length===0){
+      // If 'open' array is empty and the target end node is not found, return a default node indicating failure
       console.log("can't Find it :( !")
       return new Node({x:-1,y:-1});
     }

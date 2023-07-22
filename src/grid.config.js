@@ -1,15 +1,10 @@
 
-import {addObstacle,chooseEnd,chooseStart} from './graph.builder';
+import { Game,Graph,Node } from "./graph.builder";
 
-
-
-
-let counter=0;
 class GridRow{
   constructor(height){
     this.width=800;
     this.height=575/height;
-    this.verticalGap=50/height;
     this.HTMLRow=this.buildRow()
     return this ;
   };
@@ -22,7 +17,6 @@ class GridRow{
       width:${this.width};
       display: flex;
       height:${this.height}px;
-      margin: ${this.verticalGap}px 0px;
     `;
 
     container.appendChild(row);
@@ -35,13 +29,12 @@ class Card{
     x:1,
     y:1
   };
-  constructor(row,width){
+  constructor(row,width,gameTerrain){
     this.width=row.width/width;
     this.height=row.height;
-    this.horizontalGap=100/width;
     this.position=this.incrementCurrentPos(width);
+    this.gameTerrain=gameTerrain;
     this.buildCard(row.HTMLRow);
-    
   }
   incrementCurrentPos(width){
     const currentPosition={...Card.currentPosition};
@@ -64,8 +57,6 @@ class Card{
     card.style.cssText=`
       width:${this.width}px;
       height:${this.height}px;
-      margin: 0px ${this.horizontalGap}px;
-      
     `;
     card.classList.add('card');
 
@@ -74,11 +65,16 @@ class Card{
     row.appendChild(card);
   }
 
+  static restartPosCounter(){
+    Card.currentPosition={x:1,y:1};
+  }
+
   buildListener(card){
     card.addEventListener('mousedown',(event)=>{
       if(event.button==0){
         try{
-          choosePoints(this.position);
+          console.log('click0')
+          this.gameTerrain.setPoint(this.position);
           card.style.backgroundColor='lightblue';
         }
         catch(error)
@@ -87,42 +83,85 @@ class Card{
         }
       }
       else{
+        console.log('click1')
+        this.gameTerrain.addObs(this.position);
         card.style.backgroundColor='black';
-        addObstacle(this.position);
       }
     })
   }
-  static restartPosCounter(){
-    Card.currentPosition={x:1,y:1};
-  }
+
 }
 
-function choosePoints(point){
-  if(counter===0){
-    chooseStart(point);
+// the GameTerrain (Graphical + Virtual)
+class GameTerrain{
+  constructor(height,width){
+    this.buildTerrain(height,width);
+    this.start={x:0,y:0};
+    this.end={x:0,y:0};
+    this.counter = 0;
   }
-  else if(counter===1){
-    chooseEnd(point);
-  }
-  else{
-    throw new Error;
-  }
-  counter++
-}
 
-function pointsInit(){
-  counter=0;
-}
+  setPoint(point){
+    if(this.counter===0){
+      this.start=point;
+    }
+    else if(this.counter===1){
+      this.end=point;
+      this.linkToGame();
+      this.launchGame();
+    }
+    else{
+      throw new Error;
+    }
+    this.counter++
+  }
 
-function buildTerrain(height, width) {
-  pointsInit();
-  Card.restartPosCounter();
-  for (let i = 0; i < height; i++) {
-    let row = new GridRow(10); // Pass height and width to GridRow constructor
-    for (let j = 0; j < width; j++) {
-      new Card(row,width);
+  addObs(point){
+    this.graph.addObstacle(point);
+  }
+
+  linkToGame(){
+    if(this.start && this.end){
+        this.game= new Game(this.graph,this.start,this.end);
+    }
+    else{
+      throw new GameInitError;
     }
   }
+
+  launchGame(){
+    let result = this.game.aStar();
+    this.reconstructPath(result);
+  }
+
+  reconstructPath(result){
+    console.log(result);
+  }
+
+  cleanContainer(){
+    const container = document.querySelector('.container');
+    container.innerHTML = '';
+  }
+  
+  buildTerrain(height, width) {
+    this.cleanContainer();
+    Card.restartPosCounter();
+    for (let i = 0; i < height; i++) {
+      let row = new GridRow(10); // Pass height and width to GridRow constructor
+      for (let j = 0; j < width; j++) {
+        new Card(row,width,this);
+      }
+    }
+    this.graph= new Graph(height,width);
+  }
 }
 
-export default buildTerrain;
+class GameInitError extends Error{
+  constructor(){
+    super("Game not Initialised");
+    this.name="GameInitError"
+  }
+}
+
+
+export {GameTerrain}
