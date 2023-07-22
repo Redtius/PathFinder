@@ -55,7 +55,6 @@ class Game{
 
       // If 'next' node is the target end node, we have found the path
       if (next.position.x == this.end.x && next.position.y == this.end.y){
-        console.log(next,"Found it!")
         return next;
       }
 
@@ -73,7 +72,7 @@ class Game{
     }
     if(open.length===0){
       // If 'open' array is empty and the target end node is not found, return a default node indicating failure
-      console.log("can't Find it :( !")
+      alert('The End Point is Unreachable!')
       return new Node({x:-1,y:-1});
     }
     }
@@ -133,7 +132,8 @@ class Node{
     this.gscore = gscore;
   }
   setHscore(end){
-    this.hscore = Math.abs(end.x-this.position.x)+Math.abs(end.y-this.position.y);
+    this.hscore = Math.sqrt((end.x-this.position.x)**2 + (end.y-this.position.y)**2); // Euclidean Distance
+    //Math.abs(end.x-this.position.x)+Math.abs(end.y-this.position.y); Manhattan Distance
   }
   distance(node){
     return Math.abs(this.position.x-node.position.x)+Math.abs(this.position.y-node.position.y);
