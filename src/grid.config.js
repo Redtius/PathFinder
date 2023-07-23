@@ -75,8 +75,8 @@ class Card{
     card.addEventListener('mousedown',(event)=>{
       if(event.button==0){
         try{
+          this.gameTerrain.setPoint(this.position);
           card.style.backgroundColor='lightblue';
-          this.gameTerrain.setPoint(this.position);   
         }
         catch(error)
         {
@@ -112,6 +112,7 @@ class GameTerrain{
       this.launchGame();
     }
     else{
+      alert("Restart the game!");
       throw new Error;
     }
     this.counter++

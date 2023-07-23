@@ -1,20 +1,13 @@
 
 // finds the minimum F score of a given Array of Nodes
-function minFscore(openArray){
+function minFscore(openSet){
   let min;
-  openArray.forEach(element => {
-    if(min===undefined || element.fscore<min.fscore){
-      min = element;
+  for(const item of openSet){
+    if(min===undefined || item.fscore<min.fscore){
+      min = item;
     }
-  });
+  }
   return min;
-}
-
-// Checks if the Node is in the Array
-function searchNode(openArray,node){
-  if(openArray.find(element=>element.position.x===node.position.x && element.position.y===node.position.y))
-  return true
-  else return false;
 }
 
 // Game class to handle the A* algorithm and pathfinding
@@ -40,37 +33,39 @@ class Game{
     // Initialize the scores for the start node
     this.start.setScores(0,this.end)
 
-    let open = []; // Array to store nodes to be explored
+    let open = new Set(); // Array to store nodes to be explored
 
-    let close = []; // Array to store nodes that have been explored
+    let close = new Set(); // Array to store nodes that have been explored
 
-    open.push(this.start); // Add the start node to the 'open' array
-
-    while(open.length!==0){
+    open.add(this.start); // Add the start node to the 'open' array
+    console.log(open);
+    while(open.size!==0){
       let next = minFscore(open); // Get the node with the minimum f-score from the 'open' array
 
-      open.splice(open.indexOf(next),1); // Remove 'next' node from 'open'
+      open.delete(next); // Remove 'next' node from 'open'
 
-      close.push(next); // Add 'next' node to 'close'
-
+      close.add(next); // Add 'next' node to 'close'
+      console.log(open,close);
       // If 'next' node is the target end node, we have found the path
       if (next.position.x == this.end.x && next.position.y == this.end.y){
+        console.log('found it',next);
         return next;
       }
 
       // Get the neighboring nodes of 'next' node
-      next.voisins(this.graph).forEach((element)=>{
+      for(const element of next.voisins(this.graph)){
         // Set the g-score, h-score, and f-score for each neighboring node
           element.setScores((next.gscore + next.distance(element)),this.end);
-
+          console.log('here')
           // Check if the neighboring node is not an obstacle and is not in the 'close' array
-          if(!element.isObstacle && !searchNode(close,element)){
+          if(!element.isObstacle && !close.has(element)){
             element.setParrentNode(next); // Set the parent node for the neighboring node
-            open.push(element); // Add the neighboring node to 'open' for further exploration
+            open.add(element); // Add the neighboring node to 'open' for further exploration
           }
-      })
+      }
+      console.log('here2')
     }
-    if(open.length===0){
+    if(open.size===0){
       // If 'open' array is empty and the target end node is not found, return a default node indicating failure
       alert('The End Point is Unreachable!')
       return new Node({x:-1,y:-1});
@@ -86,17 +81,21 @@ class Graph{
   }
 
   buildGraph(height,width){
-    let graph=[];
+    let graph=new Set();
     for(let i=1;i<=height;i++){
       for(let j=1;j<=width;j++){
-        graph.push(new Node({x:j,y:i}));
+        graph.add(new Node({x:j,y:i}));
       }
     }
     return graph;
   }
 
   findNode(position){
-    return this.graph.find(element => element.position.x===position.x && element.position.y===position.y);
+    for(const node of this.graph){
+      if(node.position.x === position.x && node.position.y === position.y){
+        return node;
+      } 
+    }
   }
 
   addObstacle(position){
@@ -104,9 +103,6 @@ class Graph{
     node.isObstacle=true;
   }
 }
-  
-
-
 
 class Node{
   constructor(position){
@@ -133,31 +129,30 @@ class Node{
   }
   setHscore(end){
     this.hscore = Math.sqrt((end.x-this.position.x)**2 + (end.y-this.position.y)**2); // Euclidean Distance
-    //Math.abs(end.x-this.position.x)+Math.abs(end.y-this.position.y); Manhattan Distance
   }
   distance(node){
     return Math.abs(this.position.x-node.position.x)+Math.abs(this.position.y-node.position.y);
   }
-  voisins(graph){
-    let voisins= [];
-    if(this.position.x+1 <= graph.width && this.position.x+1> 0)
-    {
-      voisins.push(graph.findNode({x:this.position.x+1,y:this.position.y}));
+  voisins(graph) {
+    let voisins = [];
+    let isYplus = this.position.y + 1 <= graph.height && this.position.y + 1 > 0;
+    let isYmines = this.position.y - 1 > 0 && this.position.y - 1 <= graph.height;
+    
+    if (this.position.x + 1 <= graph.width && this.position.x + 1 > 0) {
+      voisins.push(graph.findNode({ x: this.position.x + 1, y: this.position.y }));
     }
-    if(this.position.x-1 > 0 && this.position.x-1 <= graph.width)
-    {
-      voisins.push(graph.findNode({x:this.position.x-1,y:this.position.y}));
+    if (this.position.x - 1 > 0 && this.position.x - 1 <= graph.width) {
+      voisins.push(graph.findNode({ x: this.position.x - 1, y: this.position.y }));
     }
-    if(this.position.y+1 <= graph.height && this.position.y+1 > 0)
-    {
-      voisins.push(graph.findNode({x:this.position.x,y:this.position.y+1}));
+    if (isYplus) {
+      voisins.push(graph.findNode({ x: this.position.x, y: this.position.y + 1 }));
     }
-    if(this.position.y-1 > 0 && this.position.y-1 <= graph.height)
-    {
-      voisins.push(graph.findNode({x:this.position.x,y:this.position.y-1}));
+    if (isYmines) {
+      voisins.push(graph.findNode({ x: this.position.x, y: this.position.y - 1 }));
     }
-    return voisins;
-}
+    
+    return new Set(voisins); // Convert the array of neighbors to a Set
+  }
 }
 
 
