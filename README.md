@@ -1,6 +1,9 @@
 # PathFinder
 Explore Optimal Paths with Vanilla JavaScript's A* Algorithm.
 
+## License
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](#)
+
 ## Project Tech Stack
 | Technology           | Description                                              |
 |----------------------|----------------------------------------------------------|
@@ -10,6 +13,3 @@ Explore Optimal Paths with Vanilla JavaScript's A* Algorithm.
 | Transpiler           | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg" height="100" width="auto"/>                                                   |
 | Package Manager      | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" height="100" width="auto" />                               |
 
-## License
-
-[![MIT License](https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg)](#)
