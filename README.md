@@ -3,17 +3,25 @@ Explore Optimal Paths with Vanilla JavaScript's A* Algorithm.
 
 The A* algorithm pathfinding project is a web-based application implemented using Vanilla JavaScript that demonstrates the A* (A-star) algorithm for finding the optimal path in a grid-based environment. The application allows users to interact with a grid and visualize how the A* algorithm efficiently calculates the shortest path from the starting point to the destination while avoiding obstacles.
 
+<p align="center">
+<img src="https://github.com/user-attachments/assets/41611490-ca06-4950-ad4f-c93a7708e5c4" alt="Project Showcase" width="500" height="auto"   />
+</p>
+
+<p align="center" style="color:gray;">
+  Algorithm Example
+</p>
+
 ## License
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](#)
 
 ## Project Tech Stack
 | Technology           | Description                                              |
 |----------------------|----------------------------------------------------------|
-| Frontend Language    | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="100" width="auto" />|
-| CSS Preprocessor     | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" height="100" width="auto" />                                       |
-| Bundler              | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original-wordmark.svg" height="100" width="auto" />  |                                                |
-| Transpiler           | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg" height="100" width="auto"/>                                                   |
-| Package Manager      | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" height="100" width="auto" />      |                        
+| Frontend Language    | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="50" width="auto" />|
+| CSS Preprocessor     | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" height="50" width="auto" />                                       |
+| Bundler              | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original-wordmark.svg" height="50" width="auto" />  |                                                |
+| Transpiler           | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg" height="50" width="auto"/>                                                   |
+| Package Manager      | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" height="50" width="auto" />      |                        
 
 **Key Features:**
 
